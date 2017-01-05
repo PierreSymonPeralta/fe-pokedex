@@ -1,0 +1,23 @@
+<div class="page-container">
+  <div class="row">
+      <div class="col-md-6">
+        <div class="well overflow-auto">
+          <table class="table">
+            <thead>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>THEME</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="pokemon in vm.pokemons track by $index">
+                <td>{{ pokemon.id }}</td>
+                <td>{{ pokemon.ename }}</td>
+                <td><img src="http://localhost:4730/pokemons/image/{{pokemon.id}}" alt="{{pokemon.ename}}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+      </div>
+  </div>
+</div>
