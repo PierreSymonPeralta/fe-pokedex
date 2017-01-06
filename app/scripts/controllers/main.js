@@ -9,87 +9,127 @@
  */
 angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
 
-    function MainCtrl(pokemonService, $timeout) {
+    MainCtrl.$inject = ['pokemonService'];
+
+    function MainCtrl(pokemonService) {
         var vm = this;
+        
         //variables
-        vm.hasError   =   false;
-        vm.filterBy   =   {};
+        vm.searchBy = 'ename';
+        vm.searchValue = '';
+        vm.reverse = false;
 
         //functions
         vm.activate   =   activate;
-        vm.getData    =   getData;
-        vm.clearData  =   clearData;
-        vm.setFilter  =   setFilter;
+        vm.getPokemonType = getPokemonType;
+        vm.searchPokemon = searchPokemon;
+        vm.clearSearchValue = clearSearchValue;
+        vm.setOrderBy = setOrderBy;
+        vm.showPokemonDetails = showPokemonDetails;
 
         activate();
 
-
-        /**
-       * @ngdoc function
-       * @name pokedexApp.controller:MainCtrl
-       * @description
+       /**
+       * @name activate
+       * @description : on load function
        **/
         function activate(){
-          pokemonService.query().$promise.then(onSuccessPokemons, onErrorPokemons); 
-          pokemonService.getPokemonTypes().$promise.then(onSuccessTypes, onErrorTypes); 
-          pokemonService.getPokemonSkills().$promise.then(onSuccessSkills, onErrorSkills); 
+            pokemonService.getPokemonTypes().$promise.then(onSuccessTypes, onErrorTypes); 
+            pokemonService.getPokemonSkills().$promise.then(onSuccessSkills, onErrorSkills); 
+            pokemonService.query().$promise.then(onSuccessPokemons, onErrorPokemons); 
         }
         function onSuccessPokemons(data){
-          vm.pokemons = data;
-          vm.hasError = false;
-          // console.log('POKEMONS!!!');
-          //console.log(vm.pokemons);
+            vm.pokemons = data;
+            vm.hasError = false;
+
+            vm.getPokemonType();
         }
         function onErrorPokemons(error){
-          vm.hasError = true;
+            vm.hasError = true;
         }
         function onSuccessTypes(data){
-          vm.types = data;
-          vm.hasError = false;
-          // console.log('TYPES!!!');
-          // console.log(vm.types);
+            vm.types = data;
+            vm.hasError = false;
         }
         function onErrorTypes(error){
-          vm.hasError = true;
+            vm.hasError = true;
         }
         function onSuccessSkills(data){
-          vm.skills = data;
-          vm.hasError = false;
-          // console.log('SKILLS!!!');
-          // console.log(vm.skills);
+            vm.skills = data;
+            vm.hasError = false;
         }
         function onErrorSkills(error){
-          vm.hasError = true;
+            vm.hasError = true;
+        }
+
+
+        /**
+        * @name getPokemonType
+        * @description : after getting all the pokemons, get each ename of types
+        **/
+        function getPokemonType(){
+            var numberOfPokemons = vm.pokemons.length;
+            var numberOfTypes = vm.types.length;
+
+            for (var i = 0; i < numberOfPokemons; i++) {
+                var numberOfTypeOfThisPokemon = vm.pokemons[i].type.length;
+                var enameType = [];
+                for (var j = 0; j < numberOfTypeOfThisPokemon; j++) {
+                    for (var k = 0; k < numberOfTypes; k++) {
+                        if (vm.types[k].cname == vm.pokemons[i].type[j]) {
+                            enameType.push(vm.types[k].ename);
+                        }
+                    }
+                }
+                vm.pokemons[i].enameType = enameType;
+            }
         }
 
         /**
-       * @ngdoc function
-       * @name pokedexApp.controller:MainCtrl
-       * @description
-       **/
-       function getData(){
-        vm.pokemons = [];
-          $timeout(function(){
-            pokemonService.query().$promise.then(onSuccess, onError); 
-          },600);
-       }
+        * @name searchPokemon
+        * @description : filter the list based on the input criteria
+        **/
+        function searchPokemon(item){
+            var query = angular.lowercase(vm.searchValue);
+            if (vm.searchBy == 'ename') {
+                return (angular.lowercase(item.ename).indexOf(query || '') !== -1);
+            } else if (vm.searchBy == 'id') {
+                return (angular.lowercase(item.id).indexOf(query || '') !== -1);
+            } else if (vm.searchBy == 'type') {
+                var hasMatch = false;
+                for (var i = 0; i < item.enameType.length; i++) {
+                    if (angular.lowercase(item.enameType[i]).indexOf(query || '') !== -1) {
+                        hasMatch = true;
+                    }
+                }
+                return hasMatch;
+            }
+        }
 
-      /**
-       * @ngdoc function
-       * @name pokedexApp.controller:MainCtrl
-       * @description
-       **/
-       function clearData(){
-        vm.pokemons.splice(0,1);
-       }
+        /**
+        * @name clearSearchValue
+        * @description : clear the search value used in filter
+        **/
+        function clearSearchValue() {
+            vm.searchValue = '';
+        }
 
-       /**
-       * @ngdoc function
-       * @name pokedexApp.controller:MainCtrl
-       * @description
-       **/
-       function setFilter(type){
-        vm.filterBy.type = type;
-       }
+        /**
+        * @name clearSearchValue
+        * @description : clear the search value used in filter
+        **/
+        function setOrderBy(value) {
+            vm.reverse = (vm.orderByValue == value) ? !vm.reverse : false;
+            vm.orderByValue = value;
+        }
+
+        /**
+        * @name clearSearchValue
+        * @description : clear the search value used in filter
+        **/
+        function showPokemonDetails(pokemon) {
+            vm.selectedPokemon = Object.assign({}, pokemon);
+            console.log(vm.selectedPokemon);
+        }
     
   }
