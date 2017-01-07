@@ -18,6 +18,8 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         vm.searchBy = 'ename';
         vm.searchValue = '';
         vm.reverse = false;
+        vm.selectedPokemon = {};
+        vm.orderByValue = '';
 
         //functions
         vm.activate   =   activate;
@@ -40,26 +42,25 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         }
         function onSuccessPokemons(data){
             vm.pokemons = data;
-            vm.hasError = false;
 
             vm.getPokemonType();
         }
         function onErrorPokemons(error){
-            vm.hasError = true;
+            
         }
         function onSuccessTypes(data){
             vm.types = data;
             vm.hasError = false;
         }
         function onErrorTypes(error){
-            vm.hasError = true;
+            
         }
         function onSuccessSkills(data){
             vm.skills = data;
-            vm.hasError = false;
+            
         }
         function onErrorSkills(error){
-            vm.hasError = true;
+            
         }
 
 
@@ -112,6 +113,9 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         **/
         function clearSearchValue() {
             vm.searchValue = '';
+            vm.reverse = false;
+            vm.selectedPokemon = {};
+            vm.orderByValue = '';
         }
 
         /**
@@ -129,7 +133,6 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         **/
         function showPokemonDetails(pokemon) {
             vm.selectedPokemon = Object.assign({}, pokemon);
-            console.log(vm.selectedPokemon);
         }
     
   }

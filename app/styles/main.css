@@ -81,10 +81,13 @@ body {
   }
 }
 /*=============Utilities CSS ==============*/
-.pad-2{
+.no-pad {
+  padding: 0;
+}
+.pad-2 {
   padding: 2%;
 }
-.pad-5{
+.pad-5 {
   padding: 5%;
 }
 
@@ -98,18 +101,23 @@ body {
 
 .overflow-auto {
  position: relative;
- height: 500px;
+ height: 438px;
  overflow-y: scroll;
  padding: 2%;
 }
 
 .image-container{
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   height: 350px;
-  background-color: #95a5a6;
 }
 
-.well{
+.image-container img {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.well {
   border-radius: 5px;
   border: none;
   background-color: rgba(44, 62, 80,0.8);
@@ -135,13 +143,25 @@ body {
 .table-header {
   margin-bottom: -3%;
 }
-.table thead tr th{
+.table thead tr th {
   border-bottom: none;
   color: #ecf0f1;
 }
-.table thead tr th a{
+.table thead tr th a {
   text-decoration: none;
-  color: #000;
+  color: #fff;
+}
+
+.table thead tr th a:hover {
+  opacity: 0.8;
+}
+
+.table-label {
+  width: 30%;
+}
+
+.progress {
+  margin-bottom: 0;
 }
 
 .pokemon-list.ng-move,
