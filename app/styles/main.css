@@ -124,6 +124,11 @@ body {
   margin: 0;
 }
 
+.skill a {
+  text-decoration: none;
+  color: #ecf0f1;
+}
+
 /*=============List CSS ==============*/
 
 ::-webkit-scrollbar {
@@ -140,6 +145,9 @@ body {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
+.table {
+  margin-bottom: 0px;
+}
 .table-header {
   margin-bottom: -3%;
 }

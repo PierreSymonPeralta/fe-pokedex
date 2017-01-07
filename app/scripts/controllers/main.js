@@ -19,11 +19,13 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         vm.searchValue = '';
         vm.reverse = false;
         vm.selectedPokemon = {};
+        vm.selectedPokemonSkills = [];
         vm.orderByValue = '';
 
         //functions
         vm.activate   =   activate;
         vm.getPokemonType = getPokemonType;
+        vm.getPokemonSkills = getPokemonSkills;
         vm.searchPokemon = searchPokemon;
         vm.clearSearchValue = clearSearchValue;
         vm.setOrderBy = setOrderBy;
@@ -35,31 +37,31 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
        * @name activate
        * @description : on load function
        **/
-        function activate(){
+        function activate() {
             pokemonService.getPokemonTypes().$promise.then(onSuccessTypes, onErrorTypes); 
             pokemonService.getPokemonSkills().$promise.then(onSuccessSkills, onErrorSkills); 
             pokemonService.query().$promise.then(onSuccessPokemons, onErrorPokemons); 
         }
-        function onSuccessPokemons(data){
+        function onSuccessPokemons(data) {
             vm.pokemons = data;
 
             vm.getPokemonType();
         }
-        function onErrorPokemons(error){
+        function onErrorPokemons(error) {
             
         }
-        function onSuccessTypes(data){
+        function onSuccessTypes(data) {
             vm.types = data;
             vm.hasError = false;
         }
-        function onErrorTypes(error){
+        function onErrorTypes(error) {
             
         }
-        function onSuccessSkills(data){
+        function onSuccessSkills(data) {
             vm.skills = data;
             
         }
-        function onErrorSkills(error){
+        function onErrorSkills(error) {
             
         }
 
@@ -68,7 +70,7 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         * @name getPokemonType
         * @description : after getting all the pokemons, get each ename of types
         **/
-        function getPokemonType(){
+        function getPokemonType() {
             var numberOfPokemons = vm.pokemons.length;
             var numberOfTypes = vm.types.length;
 
@@ -87,10 +89,48 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         }
 
         /**
+        * @name getPokemonSkills
+        * @description : get the details of each skills of the selected pokemon
+        **/
+        function getPokemonSkills() {
+            var skills = {};
+            var currentSkillsId = [];
+            var levelupSkills = [];
+
+            if (vm.selectedPokemon.skills.level_up != undefined) {
+                currentSkillsId = getUniqueSkills(vm.selectedPokemon.skills.level_up);
+                var numberOfPokemonSkills = currentSkillsId.length;
+                var numberOfSkills = vm.skills.length;
+                for (var i = 0; i < numberOfPokemonSkills; i++) {
+                    for (var j = 0; j < numberOfSkills; j++) {
+                        if (currentSkillsId[i] == vm.skills[j].id) {
+                            levelupSkills.push(vm.skills[j]);
+                        }
+                    };
+                }
+            }
+            vm.selectedPokemonSkills = levelupSkills;
+        }
+
+        /**
+        * @name getUniqueSkills
+        * @description : get the final list of skills of the selected pokemon
+        **/
+        function getUniqueSkills(arr) {
+                var result = [];
+                for (var i = 0; i < arr.length; i++) {
+                    if (result.indexOf(arr[i]) == -1) {
+                        result.push(arr[i]);
+                    }
+                }
+                return result;
+        }
+
+        /**
         * @name searchPokemon
         * @description : filter the list based on the input criteria
         **/
-        function searchPokemon(item){
+        function searchPokemon(item) {
             var query = angular.lowercase(vm.searchValue);
             if (vm.searchBy == 'ename') {
                 return (angular.lowercase(item.ename).indexOf(query || '') !== -1);
@@ -114,13 +154,21 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         function clearSearchValue() {
             vm.searchValue = '';
             vm.reverse = false;
-            vm.selectedPokemon = {};
             vm.orderByValue = '';
         }
 
         /**
-        * @name clearSearchValue
-        * @description : clear the search value used in filter
+        * @name clearSelectedPkemon
+        * @description : clear the model of the selected pokemon
+        **/
+        function clearSelectedPkemon() {
+            vm.selectedPokemon = {};
+            vm.selectedPokemonSkills = [];
+        }
+
+        /**
+        * @name setOrderBy
+        * @description : set the value for sorting
         **/
         function setOrderBy(value) {
             vm.reverse = (vm.orderByValue == value) ? !vm.reverse : false;
@@ -128,11 +176,15 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         }
 
         /**
-        * @name clearSearchValue
-        * @description : clear the search value used in filter
+        * @name showPokemonDetails
+        * @description : get the model of the selected pokemon
         **/
         function showPokemonDetails(pokemon) {
+            clearSelectedPkemon();
             vm.selectedPokemon = Object.assign({}, pokemon);
+            vm.getPokemonSkills();
         }
+
+
     
   }

@@ -72,19 +72,23 @@
                     <div class="col-md-6 pad-2">
                       <table class="table">
                         <tr>
-                          <td>ID :</td>
-                          <td><h3>{{vm.selectedPokemon.id}}</h3></td>
-                          <td></td>
+                          <td>ID:</td>
+                          <td>{{vm.selectedPokemon.id}}</td>
                         </tr>
                         <tr>
-                          <td>NAME :</td>
-                          <td><h3>{{vm.selectedPokemon.ename}}</h3></td>
-                          <td></td>
+                          <td>NAME:</td>
+                          <td>{{vm.selectedPokemon.ename}}</td>
                         </tr>
                         <tr>
-                          <td>TYPE :</td>
-                          <td><h3><span ng-repeat="type in vm.selectedPokemon.enameType">{{type}}&nbsp</span></h3></td>
-                          <td></td>
+                          <td>TYPE:</td>
+                          <td><span ng-repeat="type in vm.selectedPokemon.enameType">{{type}}&nbsp</span></td>
+                        </tr>
+                        <tr>
+                          <td>SKILLS:</td>
+                          <td>
+                              <span ng-if="vm.selectedPokemonSkills.length == 0">**No Skill Found**</span>
+                              <span ng-if="vm.selectedPokemonSkills.length > 0" class="col-md-6 skill" ng-repeat="skill in vm.selectedPokemonSkills track by $index"><a href="">{{skill.ename}}</a></span>                             
+                          </td>
                         </tr>
                       </table>
                     </div>
