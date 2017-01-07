@@ -90,6 +90,9 @@ body {
 .pad-5 {
   padding: 5%;
 }
+.margin-top-20 {
+  margin-top: 20px;
+}
 
 /*=============Custom Container CSS ==============*/
 
@@ -172,27 +175,29 @@ body {
   margin-bottom: 0;
 }
 
-.pokemon-list.ng-move,
-.pokemon-list.ng-enter,
-.pokemon-list.ng-leave {
+.main-content.ng-move,
+.main-content.ng-enter,
+.main-content.ng-leave {
   -webkit-transition: all .5s ease-in-out;
   transition: all .5s ease-in-out;
 }
 
-.pokemon-list.ng-leave.ng-leave-active,
-.pokemon-list.ng-move,
-.pokemon-list.ng-enter {
+.main-content.ng-leave.ng-leave-active,
+.main-content.ng-move,
+.main-content.ng-enter {
   opacity: 0;
   height: 0;
   min-height: 0;
 }
 
-.pokemon-list.ng-leave,
-.pokemon-list.ng-move.ng-move-active,
-.pokemon-list.ng-enter.ng-enter-active {
+.main-content.ng-leave,
+.main-content.ng-move.ng-move-active,
+.main-content.ng-enter.ng-enter-active {
   opacity: 1;
   height: 82px;
   min-height: 82px;
 }
+
+
 
 

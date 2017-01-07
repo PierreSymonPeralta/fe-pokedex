@@ -1,16 +1,16 @@
 <div class="page-container">
     <div class="row">
-        <div class="col-xs-4">
-            <form class="form-inline well">
-                <div class="form-group">
-                    <label for="exampleInputName2">Filter By :</label>
+        <div class="col-md-4">
+            <form class="form-inline well row">
+                <div class="form-group col-md-5">
+                    <label for="filter-option">Filter By :</label>
                     <select class="form-control" ng-model="vm.searchBy" ng-change="vm.clearSearchValue()">
                       <option value="ename">Name</option>
                       <option value="id">ID</option>
                       <option value="type">Type</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-7">
                     <label for="search input">Search :</label>
                     <input type="text" class="form-control" ng-model="vm.searchValue" ng-if="vm.searchBy != 'type'">
                     <select class="form-control" ng-model="vm.searchValue" ng-options="type.ename as type.ename for type in vm.types" ng-if="vm.searchBy == 'type'">
@@ -59,9 +59,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-8">
+        <br>
+        <div class="col-md-8">
             <!-- POKEMON DETAILS -->
-            <div>
+            <div ng-if="vm.selectedPokemon.hasOwnProperty('id')" class="main-content">
+                <!-- UPPER DETAILS SECTION -->
                 <div class="well">
                   <div class="row">
                     <div class="col-md-6 pad-2">
@@ -70,31 +72,49 @@
                       </div>
                     </div>
                     <div class="col-md-6 pad-2">
-                      <table class="table">
-                        <tr>
-                          <td>ID:</td>
-                          <td>{{vm.selectedPokemon.id}}</td>
-                        </tr>
-                        <tr>
-                          <td>NAME:</td>
-                          <td>{{vm.selectedPokemon.ename}}</td>
-                        </tr>
-                        <tr>
-                          <td>TYPE:</td>
-                          <td><span ng-repeat="type in vm.selectedPokemon.enameType">{{type}}&nbsp</span></td>
-                        </tr>
-                        <tr>
-                          <td>SKILLS:</td>
-                          <td>
-                              <span ng-if="vm.selectedPokemonSkills.length == 0">**No Skill Found**</span>
-                              <span ng-if="vm.selectedPokemonSkills.length > 0" class="col-md-6 skill" ng-repeat="skill in vm.selectedPokemonSkills track by $index"><a href="">{{skill.ename}}</a></span>                             
-                          </td>
-                        </tr>
-                      </table>
+                      <div class="row">
+                         <table class="table">
+                            <tr>
+                              <td>ID:</td>
+                              <td>{{vm.selectedPokemon.id}}</td>
+                            </tr>
+                            <tr>
+                              <td>NAME:</td>
+                              <td>{{vm.selectedPokemon.ename}}</td>
+                            </tr>
+                            <tr>
+                              <td>TYPE:</td>
+                              <td><span ng-repeat="type in vm.selectedPokemon.enameType">{{type}}&nbsp</span></td>
+                            </tr>
+                            <tr>
+                              <td>SKILLS:</td>
+                              <td>
+                                  <span ng-if="vm.selectedPokemonSkills.length == 0">**No Skill Found**</span>
+                                  <span ng-if="vm.selectedPokemonSkills.length > 0" class="col-md-6 skill" ng-repeat="skill in vm.selectedPokemonSkills track by $index"><a href="" ng-mouseover="vm.showSkillDetails(skill)">{{skill.ename}}</a></span>                             
+                              </td>
+                            </tr>
+                          </table>
+                      </div>
+                      <br>
+                       Skill Details:
+                      <div class="row">
+                        <div class="col-md-6">
+                          <span>ID:</span>&nbsp{{vm.selectedSkill.id || 'N/A'}}<br>
+                          <span>NAME:</span>&nbsp{{vm.selectedSkill.ename || 'N/A'}}<br>
+                          <span>TYPE:</span>&nbsp{{vm.selectedSkill.enameType || 'N/A'}}<br>
+                        </div>
+                        <div class="col-md-6">
+                          <span>ACCURACY:</span>&nbsp{{vm.selectedSkill.accuracy || 'N/A'}}<br>
+                          <span>PP:</span>&nbsp{{vm.selectedSkill.pp || 'N/A'}}<br>
+                          <span>POWER:</span>&nbsp{{vm.selectedSkill.power || 'N/A'}}<br>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <!-- UPPER DETAILS SECTION END-->
                 <br>
+                <!-- LOWER DETAILS SECTION-->
                 <div class="well">
                     <div class="row">
                         <div class="col-md-6">
@@ -179,8 +199,21 @@
                         </div>
                     </div>
                 </div>
+                <!-- LOWER DETAILS SECTION END-->
             </div>
             <!-- POKEMON DETAILS END-->
+            <div ng-if="!vm.selectedPokemon.hasOwnProperty('id')" class="main-content">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="images/logo.png">
+                        </div>
+                        <div class="col-md-7">
+                            <!-- <img src="images/pokedex.png"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
 </div>

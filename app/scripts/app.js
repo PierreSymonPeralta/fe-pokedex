@@ -1,5 +1,5 @@
+(function(){
 'use strict';
-
 /**
  * @ngdoc overview
  * @name pokedexApp
@@ -20,10 +20,8 @@ angular
   ])
   
   .config(function($stateProvider, $urlRouterProvider) {
-    // 
     // For any unmatched url, redirect to /state1 
     $urlRouterProvider.otherwise("/home");
-    // 
     // Now set up the states 
     $stateProvider
       .state('home', {
@@ -37,5 +35,8 @@ angular
         templateUrl: "views/about.html",
         controller: 'AboutCtrl',
         controllerAs: 'vm'
-      })
+      });
   });
+
+})();
+
