@@ -17,12 +17,13 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         var vm = this;
         
         //variables
-        vm.orderByValue          = '';
-        vm.pokemons              = [];
-        vm.searchBy              = 'ename';
-        vm.searchValue           = '';
-        vm.reverse               = false;
-        vm.selectedPokemon       = {};
+        vm.pokemons              = [];          //holds the list on pokemons
+        vm.searchBy              = 'ename';     //filter criteria
+        vm.orderByValue          = '';          //sort by value
+        vm.searchValue           = '';          
+        vm.reverse               = false;       //sort by ACS or DEC
+        vm.showTypes             = false;
+        vm.selectedPokemon       = {};          //holds the selected pokemon
         vm.selectedPokemonSkills = [];
         vm.selectedSkill         = {};
 
@@ -42,7 +43,7 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
 
        /**
        * @name activate
-       * @description : on load function
+       * @description : on load function make request to API server
        **/
         function activate() {
             pokemonService.getPokemonTypes().$promise.then(onSuccessTypes, onErrorTypes); 
@@ -54,20 +55,19 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
             vm.getPokemonType();
         }
         function onErrorPokemons(error) {
-            
+            alert('Error occured while fetching pokemons');
         }
         function onSuccessTypes(data) {
             vm.types = data;
-            vm.hasError = false;
         }
         function onErrorTypes(error) {
-            
+            alert('Error occured while fetching pokemon types');
         }
         function onSuccessSkills(data) {
             vm.skills = data;
         }
         function onErrorSkills(error) {
-            
+            alert('Error occured while fetching pokemon skills');
         }
 
         /**
@@ -99,6 +99,7 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
             vm.searchValue = '';
             vm.reverse = false;
             vm.orderByValue = '';
+            (vm.searchBy == 'type') ? vm.showTypes = true : vm.showTypes = false; //toggle type of input for searching
         }
 
         /**
@@ -168,7 +169,6 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
             var skills = {};
             var currentSkillsId = [];
             var levelupSkills = [];
-
             if (vm.selectedPokemon.skills.level_up != undefined) {
                 currentSkillsId = getUniqueSkills(vm.selectedPokemon.skills.level_up);
                 var numberOfPokemonSkills = currentSkillsId.length;

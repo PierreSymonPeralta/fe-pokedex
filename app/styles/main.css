@@ -1,12 +1,10 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto+Condensed';
 
-
 body {
   font-family: 'Roboto Condensed', sans-serif;
   background-image: url(../images/bg.jpg);
   background-size: cover;
 }
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -14,7 +12,6 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
 /* Custom page header */
 .header {
   /*border-bottom: 1px solid #e5e5e5;*/
@@ -28,35 +25,37 @@ body {
   line-height: 40px;
   padding-bottom: 19px;
 }
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  /*border-top: 1px solid #e5e5e5;*/
-}
-
 .container-narrow > hr {
   margin: 30px 0;
 }
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+.skill a {
+  text-decoration: none;
+  color: #ecf0f1;
 }
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+.skill a:hover {
+  opacity: 0.8;
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-}
-.marketing p + h4 {
-  margin-top: 28px;
-}
+/*=============Color CSS ==============*/
+
+.normal { background-color: #003171;}
+.fighting { background-color: #FFB61E;}
+.flying { background-color: #89C4F4;}
+.poison { background-color: #E68364;}
+.ground { background-color: #7A942E;}
+.rock { background-color: #757D75;}
+.bug { background-color: #26A65B;}
+.ghost { background-color: #5B3256;}
+.steel { background-color: #34495e;}
+.fire { background-color: #e74c3c;}
+.water { background-color: #3498db;}
+.grass { background-color: #2ecc71;}
+.electric { background-color: #2980b9;}
+.psychic { background-color: #8e44ad;}
+.ice { background-color: #3498db;}
+.dragon { background-color: #f1c40f;}
+.dark { background-color: #7f8c8d;}
+.fairy { background-color: #9b59b6;}
 
 /*=============Utilities CSS ==============*/
 .no-pad {
@@ -71,6 +70,12 @@ body {
 .margin-top-20 {
   margin-top: 20px;
 }
+.pokedex-title {
+
+}
+.pokedex-logo {
+  width: 20%;
+}
 
 /*=============Custom Container CSS ==============*/
 
@@ -79,39 +84,33 @@ body {
   margin-top: 2%;
   color:#fff;
 }
-
 .overflow-auto {
  position: relative;
  height: 438px;
  overflow-y: scroll;
  padding: 2%;
 }
-
 .image-container{
   width: 100%;
   margin: 0 auto;
   height: 350px;
 }
-
 .image-container img {
   max-width: 100%;
   max-height: 100%;
 }
-
 .theme-container img{
       width: 80%;
 }
-
 .well {
   border-radius: 5px;
   border: none;
   background-color: rgba(44, 62, 80,0.8);
   margin: 0;
 }
-
-.skill a {
-  text-decoration: none;
-  color: #ecf0f1;
+.pill {
+  padding: 2px;
+  border-radius: 8px;
 }
 
 /*=============List CSS ==============*/
@@ -119,7 +118,6 @@ body {
 .table {
   margin-bottom: 0px;
 }
-
 .table thead tr th {
   border-bottom: none;
   color: #ecf0f1;
@@ -128,54 +126,33 @@ body {
   text-decoration: none;
   color: #ecf0f1;
 }
-
 .table thead tr th a:hover {
   opacity: 0.8;
 }
-
 .table-label {
   width: 30%;
 }
-
 .table.skill-details tr td{ 
-  padding: 0px;
+  padding: 1px;
 }
 .progress {
   margin-bottom: 0;
 }
-
-.main-content.ng-move,
-.main-content.ng-enter,
-.main-content.ng-leave {
-  -webkit-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
+.pokemon-list {
+  margin-bottom: 2%;
 }
-
-.main-content.ng-leave.ng-leave-active,
-.main-content.ng-move,
-.main-content.ng-enter {
-  opacity: 0;
-  height: 0;
-  min-height: 0;
-}
-
-.main-content.ng-leave,
-.main-content.ng-move.ng-move-active,
-.main-content.ng-enter.ng-enter-active {
-  opacity: 1;
-  height: 82px;
-  min-height: 82px;
+.pokemon-item:hover {
+  background-color: rgba(236, 240, 241, 0.3);
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {
     width: 15px;
 }
- 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
     border-radius: 10px;
 }
- 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
@@ -214,10 +191,10 @@ body {
       max-height: 100%;
       margin: 0 auto;
     }
-    .image-container{
-      max-width: 70%;
+    .image-container {
+      max-width: 60%;
       margin: 0 auto;
-      height: 250px;
+      height: 220px;
       overflow: hidden;
     }
     .overflow-auto {
@@ -226,10 +203,10 @@ body {
       overflow-y: scroll;
       padding: 2%;
     }
-    .theme-container img{
+    .theme-container img {
       width: 40%;
     }
-    .pokemon-details{
+    .pokemon-details {
       margin-top: 2%;
     }
 }

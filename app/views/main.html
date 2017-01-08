@@ -1,57 +1,65 @@
 <div class="page-container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 pokemon-list">
             <form class="form-inline well row">
                 <div class="form-group col-md-5">
-                    Filter By : 
+                    FILTER BY : 
                     <select class="form-control" ng-model="vm.searchBy" ng-change="vm.clearSearchValue()">
-                      <option value="ename">Name</option>
-                      <option value="id">ID</option>
-                      <option value="type">Type</option>
+                        <option value="ename">Name</option>
+                        <option value="id">Pokemon ID</option>
+                        <option value="type">Type</option>
                     </select>
                 </div>
-                <div class="form-group col-md-7">
-                    Search :
-                    <input type="text" class="form-control" ng-model="vm.searchValue" ng-if="vm.searchBy != 'type'">
-                    <select class="form-control" ng-model="vm.searchValue" ng-options="type.ename as type.ename for type in vm.types" ng-if="vm.searchBy == 'type'">
+                <div class="form-group col-md-6">
+                    SEARCH :
+                    <select class="form-control" ng-model="vm.searchValue" ng-options="type.ename as type.ename for type in vm.types" ng-if="vm.showTypes">
                         <option value="">--Choose Pokemon Type--</option>
                     </select>
+                    <input type="text" class="form-control" ng-model="vm.searchValue" ng-if="!vm.showTypes">
                 </div>
             </form>
             <br>
             <div class="row well">
                 <div class="table-header">
                     <table class="table">
-                      <thead>
-                          <th>
-                            <a href="" ng-click="vm.setOrderBy('id')">POKEMON ID</a>&nbsp
-                            <span class="glyphicon glyphicon-chevron-up" ng-if="!vm.reverse && vm.orderByValue == 'id'"></span>
-                            <span class="glyphicon glyphicon-chevron-down" ng-if="vm.reverse && vm.orderByValue == 'id'"></span>
-                          </th>
-                          <th></th>
-                          <th>
-                            <a href="" ng-click="vm.setOrderBy('ename')">NAME</a>&nbsp
-                            <span class="glyphicon glyphicon-chevron-up" ng-if="!vm.reverse && vm.orderByValue == 'ename'"></span>
-                            <span class="glyphicon glyphicon-chevron-down" ng-if="vm.reverse && vm.orderByValue == 'ename'"></span>
-                          </th>
-                          <th>
-                            <a href="" ng-click="vm.setOrderBy('enameType')">TYPE&nbsp
-                              <span class="glyphicon glyphicon-chevron-up" ng-if="!vm.reverse && vm.orderByValue == 'enameType'"></span>
-                              <span class="glyphicon glyphicon-chevron-down" ng-if="vm.reverse && vm.orderByValue == 'enameType'"></span>
-                            </a>
-                          </th>
-                      </thead>
+                        <thead>
+                              <th>
+                                  <a href="" ng-click="vm.setOrderBy('id')">POKEMON ID&nbsp
+                                      <span class="glyphicon glyphicon-chevron-up" ng-if="!vm.reverse && vm.orderByValue == 'id'"></span>
+                                      <span class="glyphicon glyphicon-chevron-down" ng-if="vm.reverse && vm.orderByValue == 'id'"></span>
+                                  </a>
+                              </th>
+                              <th></th>
+                              <th>
+                                  <a href="" ng-click="vm.setOrderBy('ename')">NAME&nbsp
+                                      <span class="glyphicon glyphicon-chevron-up" ng-if="!vm.reverse && vm.orderByValue == 'ename'"></span>
+                                      <span class="glyphicon glyphicon-chevron-down" ng-if="vm.reverse && vm.orderByValue == 'ename'"></span>
+                                  </a>
+                              </th>
+                              <th>
+                                  <a href="" ng-click="vm.setOrderBy('enameType')">TYPE&nbsp
+                                      <span class="glyphicon glyphicon-chevron-up" ng-if="!vm.reverse && vm.orderByValue == 'enameType'"></span>
+                                      <span class="glyphicon glyphicon-chevron-down" ng-if="vm.reverse && vm.orderByValue == 'enameType'"></span>
+                                  </a>
+                              </th>
+                        </thead>
                     </table>
                 </div>
                 <div class="overflow-auto">
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="pokemon in vm.pokemons | filter: vm.searchPokemon | orderBy: vm.orderByValue:vm.reverse track by $index" class="pokemon-list">
+                            <tr ng-repeat="pokemon in vm.pokemons | filter: vm.searchPokemon | orderBy: vm.orderByValue:vm.reverse track by $index" class="pokemon-item">
                                 <td>{{ pokemon.id }}</td>
-                                <td ng-click="vm.showPokemonDetails(pokemon)"><span class="theme-container"><img src="http://localhost:4730/pokemons/thm/{{pokemon.id}}" alt="{{pokemon.ename}}"></span></td>
-                                <td ng-click="vm.showPokemonDetails(pokemon)"><span>{{ pokemon.ename }}</span></td>
                                 <td ng-click="vm.showPokemonDetails(pokemon)">
-                                    <span ng-repeat="type in pokemon.enameType">{{type}}&nbsp</span>
+                                    <span class="theme-container"><img src="http://localhost:4730/pokemons/thm/{{pokemon.id}}" alt="{{pokemon.ename}}"></span>
+                                </td>
+                                <td ng-click="vm.showPokemonDetails(pokemon)">
+                                    <span>{{ pokemon.ename }}</span>
+                                </td>
+                                <td ng-click="vm.showPokemonDetails(pokemon)">
+                                    <span ng-repeat="type in pokemon.enameType">
+                                        <span class="{{type.toLowerCase()}} pill">{{type}}</span>&nbsp
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -65,75 +73,90 @@
             <div class="main-content">
                 <!-- UPPER DETAILS SECTION -->
                 <div class="well">
-                  <div class="row">
-                    <div class="col-md-6 pad-2">
-                      <div class="image-container">
-                        <img src="http://localhost:4730/pokemons/img/{{vm.selectedPokemon.id}}" ng-if="vm.selectedPokemon.hasOwnProperty('id')" alt="{{vm.selectedPokemon.ename}}">
-                        <img src="images/pokedex.png" ng-if="!vm.selectedPokemon.hasOwnProperty('id')" class="margin-top-20">
+                    <div class="row">
+                      <div class="col-md-6 pad-2">
+                          <div class="image-container">
+                              <img src="http://localhost:4730/pokemons/img/{{vm.selectedPokemon.id}}" alt="{{vm.selectedPokemon.ename}}" ng-if="vm.selectedPokemon.hasOwnProperty('id')">
+                              <div class="title-section" ng-if="!vm.selectedPokemon.hasOwnProperty('id')">
+                                  <img src="images/pokedex.png">
+                                  <br>
+                                  <br>
+                                  <br>
+                                  <h3>Please Select a Pokemon. . .</h3>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6 pad-2">
+                          <div class="row">
+                              <table class="table">
+                                  <tr>
+                                      <td>ID:</td>
+                                      <td>{{vm.selectedPokemon.id}}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>NAME:</td>
+                                      <td>
+                                      {{vm.selectedPokemon.ename}}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                      <td>TYPE:</td>
+                                      <td>
+                                          <span ng-repeat="type in vm.selectedPokemon.enameType">
+                                              <span class="{{type.toLowerCase()}} pill">{{type}}</span>&nbsp
+                                          </span>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>SKILLS:</td>
+                                    <td>
+                                        <span ng-if="vm.selectedPokemonSkills.length == 0" class="col-md-6">**No Skill Found**</span>
+                                        <span ng-if="vm.selectedPokemonSkills.length > 0" class="col-md-6 skill" ng-repeat="skill in vm.selectedPokemonSkills track by $index">
+                                            <a href="" ng-mouseover="vm.showSkillDetails(skill)">{{skill.ename}}</a>
+                                        </span>                             
+                                    </td>
+                                  </tr>
+                              </table>
+                          </div>
+                          <br>
+                          Skill Details
+                          <img src="http://localhost:4730/pokemons/spr/{{vm.selectedPokemon.id}}" alt="{{vm.selectedPokemon.ename}}" ng-if="vm.selectedPokemon.hasOwnProperty('id')">
+                          <div class="row">
+                              <div class="col-xs-6">
+                                  <table class="skill-details table">
+                                      <tr>
+                                          <td class="table-label">ID:</td>
+                                          <td>{{vm.selectedSkill.id || 'N/A'}}</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="table-label">NAME:</td>
+                                          <td>{{vm.selectedSkill.ename || 'N/A'}}</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="table-label">TYPE:</td>
+                                          <td>{{vm.selectedSkill.enameType || 'N/A'}}</td>
+                                      </tr>
+                                  </table>
+                              </div>
+                              <div class="col-xs-6">
+                                  <table class="table skill-details">
+                                      <tr>
+                                          <td class="table-label">ACCURACY:</td>
+                                          <td>{{vm.selectedSkill.accuracy || 'N/A'}}</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="table-label">PP:</td>
+                                          <td>{{vm.selectedSkill.pp || 'N/A'}}</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="table-label">POWER:</td>
+                                          <td>{{vm.selectedSkill.power || 'N/A'}}</td>
+                                      </tr>
+                                  </table>
+                              </div>
+                          </div>
                       </div>
                     </div>
-                    <div class="col-md-6 pad-2">
-                      <div class="row">
-                         <table class="table">
-                            <tr>
-                              <td>ID:</td>
-                              <td>{{vm.selectedPokemon.id}}</td>
-                            </tr>
-                            <tr>
-                              <td>NAME:</td>
-                              <td>{{vm.selectedPokemon.ename}}</td>
-                            </tr>
-                            <tr>
-                              <td>TYPE:</td>
-                              <td><span ng-repeat="type in vm.selectedPokemon.enameType">{{type}}&nbsp</span></td>
-                            </tr>
-                            <tr>
-                              <td>SKILLS:</td>
-                              <td>
-                                  <span ng-if="vm.selectedPokemonSkills.length == 0">**No Skill Found**</span>
-                                  <span ng-if="vm.selectedPokemonSkills.length > 0" class="col-md-6 skill" ng-repeat="skill in vm.selectedPokemonSkills track by $index"><a href="" ng-mouseover="vm.showSkillDetails(skill)">{{skill.ename}}</a></span>                             
-                              </td>
-                            </tr>
-                          </table>
-                      </div>
-                      <br>
-                       Skill Details
-                      <div class="row">
-                        <div class="col-xs-6">
-                          <table class="skill-details table">
-                              <tr>
-                                <td>ID:</td>
-                                <td>{{vm.selectedSkill.id || 'N/A'}}</td>
-                              </tr>
-                              <tr>
-                                <td>NAME:</td>
-                                <td>{{vm.selectedSkill.ename || 'N/A'}}</td>
-                              </tr>
-                              <tr>
-                                <td>TYPE:</td>
-                                <td>{{vm.selectedSkill.enameType || 'N/A'}}</td>
-                              </tr>
-                          </table>
-                        </div>
-                        <div class="col-xs-6">
-                            <table class="table skill-details">
-                                <tr>
-                                  <td>ACCURACY:</td>
-                                  <td>{{vm.selectedSkill.accuracy || 'N/A'}}</td>
-                                </tr>
-                                <tr>
-                                  <td>PP:</td>
-                                  <td>{{vm.selectedSkill.pp || 'N/A'}}</td>
-                                </tr>
-                                <tr>
-                                  <td>POWER:</td>
-                                  <td>{{vm.selectedSkill.power || 'N/A'}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <!-- UPPER DETAILS SECTION END-->
                 <br>
@@ -145,37 +168,37 @@
                                 <tr>
                                   <td class="table-label">Attack:</td>
                                   <td class="margin-top-2">
-                                    <div power-bar=""   
-                                       data-total="200" 
-                                       data-complete-label="pt" 
-                                       data-complete="vm.selectedPokemon.base.Attack"
-                                       data-bar-class="progress-bar-danger"   
-                                       data-toggle="tooltip">
-                                     </div>
+                                      <div power-bar=""   
+                                         data-total="200" 
+                                         data-complete-label="pt" 
+                                         data-complete="vm.selectedPokemon.base.Attack"
+                                         data-bar-class="progress-bar-danger"   
+                                         data-toggle="tooltip">
+                                       </div>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td class="table-label">Defense:</td>
                                   <td>
-                                    <div power-bar=""   
-                                       data-total="200" 
-                                       data-complete-label="pt" 
-                                       data-complete="vm.selectedPokemon.base.Defense"
-                                       data-bar-class="progress-bar-success"   
-                                       data-toggle="tooltip">
-                                     </div>
+                                      <div power-bar=""   
+                                         data-total="200" 
+                                         data-complete-label="pt" 
+                                         data-complete="vm.selectedPokemon.base.Defense"
+                                         data-bar-class="progress-bar-success"   
+                                         data-toggle="tooltip">
+                                       </div>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td class="table-label">HP:</td>
                                   <td>
-                                    <div power-bar=""   
-                                       data-total="200" 
-                                       data-complete-label="pt" 
-                                       data-complete="vm.selectedPokemon.base.HP"
-                                       data-bar-class="progress-bar-warning"   
-                                       data-toggle="tooltip">
-                                     </div>
+                                      <div power-bar=""   
+                                         data-total="200" 
+                                         data-complete-label="pt" 
+                                         data-complete="vm.selectedPokemon.base.HP"
+                                         data-bar-class="progress-bar-warning"   
+                                         data-toggle="tooltip">
+                                       </div>
                                   </td>
                                 </tr>
                             </table>
@@ -183,40 +206,40 @@
                         <div class="col-md-6">
                             <table class="table">
                                 <tr>
-                                  <td class="table-label">Sp. Attack:</td>
-                                  <td>
-                                    <div power-bar=""   
-                                       data-total="200" 
-                                       data-complete-label="pt" 
-                                       data-complete="vm.selectedPokemon.base['Sp.Atk']"
-                                       data-bar-class="progress-bar-danger progress-bar-striped active"   
-                                       data-toggle="tooltip">
-                                     </div>
-                                  </td>
+                                    <td class="table-label">Sp. Attack:</td>
+                                    <td>
+                                        <div power-bar=""   
+                                           data-total="200" 
+                                           data-complete-label="pt" 
+                                           data-complete="vm.selectedPokemon.base['Sp.Atk']"
+                                           data-bar-class="progress-bar-danger progress-bar-striped active"   
+                                           data-toggle="tooltip">
+                                         </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                  <td class="table-label">Sp. Defense:</td>
-                                  <td>
-                                    <div power-bar=""   
-                                       data-total="200" 
-                                       data-complete-label="pt" 
-                                       data-complete="vm.selectedPokemon.base['Sp.Def']"
-                                       data-bar-class="progress-bar-success progress-bar-striped active"   
-                                       data-toggle="tooltip">
-                                     </div>
-                                  </td>
+                                    <td class="table-label">Sp. Defense:</td>
+                                    <td>
+                                        <div power-bar=""   
+                                           data-total="200" 
+                                           data-complete-label="pt" 
+                                           data-complete="vm.selectedPokemon.base['Sp.Def']"
+                                           data-bar-class="progress-bar-success progress-bar-striped active"   
+                                           data-toggle="tooltip">
+                                         </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                  <td class="table-label">Speed:</td>
-                                  <td>
-                                    <div power-bar=""   
-                                       data-total="200" 
-                                       data-complete-label="pt" 
-                                       data-complete="vm.selectedPokemon.base.Speed"
-                                       data-bar-class=""   
-                                       data-toggle="tooltip">
-                                     </div>
-                                  </td>
+                                    <td class="table-label">Speed:</td>
+                                    <td>
+                                        <div power-bar=""   
+                                           data-total="200" 
+                                           data-complete-label="pt" 
+                                           data-complete="vm.selectedPokemon.base.Speed"
+                                           data-bar-class=""   
+                                           data-toggle="tooltip">
+                                         </div>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
