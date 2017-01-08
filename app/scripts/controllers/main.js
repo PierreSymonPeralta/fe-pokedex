@@ -18,6 +18,7 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         
         //variables
         vm.orderByValue          = '';
+        vm.pokemons              = [];
         vm.searchBy              = 'ename';
         vm.searchValue           = '';
         vm.reverse               = false;
@@ -28,8 +29,10 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         //functions
         vm.activate             = activate;
         vm.clearSearchValue     = clearSearchValue;
+        vm.clearSelectedPokemon = clearSelectedPokemon;
         vm.getPokemonType       = getPokemonType;
         vm.getPokemonSkills     = getPokemonSkills;
+        vm.getUniqueSkills      = getUniqueSkills;
         vm.searchPokemon        = searchPokemon;
         vm.setOrderBy           = setOrderBy;
         vm.showPokemonDetails   = showPokemonDetails;
@@ -102,7 +105,7 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         * @name clearSelectedPkemon
         * @description : clear the model of the selected pokemon
         **/
-        function clearSelectedPkemon() {
+        function clearSelectedPokemon() {
             vm.selectedPokemon = {};
             vm.selectedPokemonSkills = [];
             vm.selectedSkill = {};
@@ -122,7 +125,7 @@ angular.module('pokedexApp').controller('MainCtrl', MainCtrl);
         * @description : get the model of the selected pokemon
         **/
         function showPokemonDetails(pokemon) {
-            clearSelectedPkemon();
+            vm.clearSelectedPokemon();
             vm.selectedPokemon = Object.assign({}, pokemon);
             vm.getPokemonSkills();
         }
