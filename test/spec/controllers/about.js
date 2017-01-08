@@ -16,4 +16,5 @@ describe('Controller: AboutCtrl', function () {
       // place here mocked dependencies
     });
   }));
+
 });

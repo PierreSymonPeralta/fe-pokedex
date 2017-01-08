@@ -3,7 +3,7 @@
         <div class="col-md-4">
             <form class="form-inline well row">
                 <div class="form-group col-md-5">
-                    <label for="filter-option">Filter By :</label>
+                    Filter By : 
                     <select class="form-control" ng-model="vm.searchBy" ng-change="vm.clearSearchValue()">
                       <option value="ename">Name</option>
                       <option value="id">ID</option>
@@ -11,7 +11,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-7">
-                    <label for="search input">Search :</label>
+                    Search :
                     <input type="text" class="form-control" ng-model="vm.searchValue" ng-if="vm.searchBy != 'type'">
                     <select class="form-control" ng-model="vm.searchValue" ng-options="type.ename as type.ename for type in vm.types" ng-if="vm.searchBy == 'type'">
                         <option value="">--Choose Pokemon Type--</option>
@@ -48,9 +48,9 @@
                         <tbody>
                             <tr ng-repeat="pokemon in vm.pokemons | filter: vm.searchPokemon | orderBy: vm.orderByValue:vm.reverse track by $index" class="pokemon-list">
                                 <td>{{ pokemon.id }}</td>
-                                <td><span ng-click="vm.showPokemonDetails(pokemon)"><img src="http://localhost:4730/pokemons/thm/{{pokemon.id}}" alt="{{pokemon.ename}}"></span></td>
-                                <td><span ng-click="vm.showPokemonDetails(pokemon)">{{ pokemon.ename }}</span></td>
-                                <td>
+                                <td ng-click="vm.showPokemonDetails(pokemon)"><span class="theme-container"><img src="http://localhost:4730/pokemons/thm/{{pokemon.id}}" alt="{{pokemon.ename}}"></span></td>
+                                <td ng-click="vm.showPokemonDetails(pokemon)"><span>{{ pokemon.ename }}</span></td>
+                                <td ng-click="vm.showPokemonDetails(pokemon)">
                                     <span ng-repeat="type in pokemon.enameType">{{type}}&nbsp</span>
                                 </td>
                             </tr>
@@ -59,16 +59,17 @@
                 </div>
             </div>
         </div>
-        <br>
-        <div class="col-md-8">
+       
+        <div class="col-md-8 pokemon-details">
             <!-- POKEMON DETAILS -->
-            <div ng-if="vm.selectedPokemon.hasOwnProperty('id')" class="main-content">
+            <div class="main-content">
                 <!-- UPPER DETAILS SECTION -->
                 <div class="well">
                   <div class="row">
                     <div class="col-md-6 pad-2">
                       <div class="image-container">
-                        <img src="http://localhost:4730/pokemons/img/{{vm.selectedPokemon.id}}">
+                        <img src="http://localhost:4730/pokemons/img/{{vm.selectedPokemon.id}}" ng-if="vm.selectedPokemon.hasOwnProperty('id')" alt="{{vm.selectedPokemon.ename}}">
+                        <img src="images/pokedex.png" ng-if="!vm.selectedPokemon.hasOwnProperty('id')" class="margin-top-20">
                       </div>
                     </div>
                     <div class="col-md-6 pad-2">
@@ -96,17 +97,39 @@
                           </table>
                       </div>
                       <br>
-                       Skill Details:
+                       Skill Details
                       <div class="row">
-                        <div class="col-md-6">
-                          <span>ID:</span>&nbsp{{vm.selectedSkill.id || 'N/A'}}<br>
-                          <span>NAME:</span>&nbsp{{vm.selectedSkill.ename || 'N/A'}}<br>
-                          <span>TYPE:</span>&nbsp{{vm.selectedSkill.enameType || 'N/A'}}<br>
+                        <div class="col-xs-6">
+                          <table class="skill-details table">
+                              <tr>
+                                <td>ID:</td>
+                                <td>{{vm.selectedSkill.id || 'N/A'}}</td>
+                              </tr>
+                              <tr>
+                                <td>NAME:</td>
+                                <td>{{vm.selectedSkill.ename || 'N/A'}}</td>
+                              </tr>
+                              <tr>
+                                <td>TYPE:</td>
+                                <td>{{vm.selectedSkill.enameType || 'N/A'}}</td>
+                              </tr>
+                          </table>
                         </div>
-                        <div class="col-md-6">
-                          <span>ACCURACY:</span>&nbsp{{vm.selectedSkill.accuracy || 'N/A'}}<br>
-                          <span>PP:</span>&nbsp{{vm.selectedSkill.pp || 'N/A'}}<br>
-                          <span>POWER:</span>&nbsp{{vm.selectedSkill.power || 'N/A'}}<br>
+                        <div class="col-xs-6">
+                            <table class="table skill-details">
+                                <tr>
+                                  <td>ACCURACY:</td>
+                                  <td>{{vm.selectedSkill.accuracy || 'N/A'}}</td>
+                                </tr>
+                                <tr>
+                                  <td>PP:</td>
+                                  <td>{{vm.selectedSkill.pp || 'N/A'}}</td>
+                                </tr>
+                                <tr>
+                                  <td>POWER:</td>
+                                  <td>{{vm.selectedSkill.power || 'N/A'}}</td>
+                                </tr>
+                            </table>
                         </div>
                       </div>
                     </div>
@@ -202,18 +225,6 @@
                 <!-- LOWER DETAILS SECTION END-->
             </div>
             <!-- POKEMON DETAILS END-->
-            <div ng-if="!vm.selectedPokemon.hasOwnProperty('id')" class="main-content">
-                <div class="well">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <img src="images/logo.png">
-                        </div>
-                        <div class="col-md-7">
-                            <!-- <img src="images/pokedex.png"> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
       </div>
 </div>
